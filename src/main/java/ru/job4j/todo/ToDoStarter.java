@@ -19,18 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @PropertySource("datasource.properties")
 public class ToDoStarter {
 
-    @Value("${jdbc.driver}")
-    private String className;
-
-    @Value ("${jdbc.url}")
-    private String url;
-
-    @Value ("${jdbc.username}")
-    private String login;
-
-    @Value ("${jdbc.password}")
-    private String password;
-
     @Bean(destroyMethod = "close")
     public SessionFactory sf(BasicDataSource basicDataSource) {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -41,7 +29,10 @@ public class ToDoStarter {
     }
 
     @Bean(destroyMethod = "close")
-    public BasicDataSource basicDataSource() {
+    public BasicDataSource basicDataSource(@Value("${jdbc.driver}") String className,
+                                           @Value("${jdbc.url}") String url,
+                                           @Value("${jdbc.username}") String login,
+                                           @Value("${jdbc.password}") String password) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(className);
         dataSource.setUrl(url);
