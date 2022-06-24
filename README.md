@@ -12,13 +12,16 @@
     <Li>liquibase</Li>
 </ul>
 
-### 1. Main page. List of all tasks.
+### 1. first, user need to register and log in:
+![registration](images_examples/registration.png)
+![login](images_examples/login.png)
+### 2. Main page. List of all tasks.
 ![mainPage](images_examples/mainPage.png)
-### 2. The page for adding a new task.
+### 3. The page for adding a new task.
 ![addNewTask](images_examples/addNewTask.png)
-### 3. Detail page
+### 4. Detail page
 ![detailPage](images_examples/detailPage.png)
-### 4. Only new tasks 
+### 5. Only new tasks 
 ![onlyNewTasksPage](images_examples/onlyNewTasksPage.png)
-### 5. Only completed tasks
+### 6. Only completed tasks
 ![onlyCompletedTasksPage](images_examples/onlyCompletedTasksPage.png)

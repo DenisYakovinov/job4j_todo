@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ItemService implements GenericService {
+public class ItemService implements GenericService<Item> {
 
     private final ItemStore itemStore;
 

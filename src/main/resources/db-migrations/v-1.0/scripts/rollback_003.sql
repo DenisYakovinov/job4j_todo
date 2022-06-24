@@ -1,0 +1,3 @@
+ALTER TABLE item ALTER COLUMN user_id DROP NOT NULL;
+ALTER TABLE item DROP CONSTRAINT fk_item_user_id;
+ALTER TABLE item DROP COLUMN user_id;

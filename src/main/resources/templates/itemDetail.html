@@ -33,8 +33,14 @@
                 <a class="nav-item nav-link active" th:href="@{/index}">Main </a>
                 <a class="nav-item nav-link" th:href="@{/addItem}">Add new task</a>
                 <a class="nav-item nav-link" th:href="@{/completedItems}">Completed</a>
-                <a class="nav-item nav-link" th:href="@{/newItems}">New</a>
+                <a class="nav-item nav-link" th:href="@{/newItems}">New tasks</a>
             </div>
+        </div>
+        <div class="navbar-nav">
+            <span class="nav-item nav-link text-info" th:text="${session.user.name}"></span>
+            <a class="nav-item nav-link" th:href="@{/logout}">
+                <span> | Logout</span>
+            </a>
         </div>
     </nav>
     <div class="container pt-3">
@@ -49,6 +55,7 @@
                             <th scope="col">Description</th>
                             <th scope="col">Created</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Author</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,14 +65,17 @@
                         <td th:text="${#temporals.format(item.created, 'dd-MMMM-yyyy', new java.util.Locale('en', 'EN'))}"></td>
                         <td th:if="${item.done}">completed</td>
                         <td th:if="${!item.done}">In progress</td>
+                        <td th:text="${item.getUser().name}"></td>
                         </tbody>
                     </table>
+                    <div th:if="${item.getUser().name == session.user.name}">
                     <a class="btn btn-outline-primary btn-sm" th:href="@{|/completed/${item.id}|}"
                        role="button">Done</a>
                     <a class="btn btn-outline-primary btn-sm" th:href="@{|/editItem/${item.id}|}"
                        role="button">Edit</a>
                     <a class="btn btn-outline-danger btn-sm" th:href="@{|/removeItem/${item.id}|}"
                        role="button">Remove</a>
+                    </div>
                 </form>
             </div>
         </div>

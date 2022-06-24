@@ -6,4 +6,6 @@
                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
 
     <include file="01-changeset-create-item-table.xml" relativeToChangelogFile="true"/>
+    <include file="02-changeset-create-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="03-changeset-create-item-userid-fk.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

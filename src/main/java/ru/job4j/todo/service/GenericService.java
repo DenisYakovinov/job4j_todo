@@ -4,16 +4,16 @@ import ru.job4j.todo.model.Item;
 
 import java.util.List;
 
-public interface GenericService {
-    Item add(Item item);
+public interface GenericService<T> {
+    T add(T entity);
 
-    boolean replace(int id, Item item);
+    boolean replace(int id, T entity);
 
     boolean delete(int id);
 
-    List<Item> findAll();
+    List<T> findAll();
 
-    List<Item> findByName(String key);
+    List<T> findByName(String key);
 
-    Item findById(int id);
+    T findById(int id);
 }

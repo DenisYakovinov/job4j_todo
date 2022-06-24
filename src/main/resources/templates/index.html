@@ -33,8 +33,14 @@
                 <a class="nav-item nav-link active" th:href="@{/index}">Main </a>
                 <a class="nav-item nav-link" th:href="@{/addItem}">Add new task</a>
                 <a class="nav-item nav-link" th:href="@{/completedItems}">Completed</a>
-                <a class="nav-item nav-link" th:href="@{/newItems}">New</a>
+                <a class="nav-item nav-link" th:href="@{/newItems}">New tasks</a>
             </div>
+        </div>
+        <div class="navbar-nav">
+            <span class="nav-item nav-link text-info" th:text="${session.user.name}"></span>
+            <a class="nav-item nav-link" th:href="@{/logout}">
+                <span> | Logout</span>
+            </a>
         </div>
     </nav>
     <div class="container pt-3">
@@ -47,6 +53,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Created</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Author</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -54,20 +61,20 @@
                         <tr th:each="item: ${items}">
                             <td th:text="${item.name}"></td>
                             <td th:text="${#temporals.format(item.created, 'dd-MMMM-yyyy', new java.util.Locale('en', 'EN'))}"></td>
-                            <!--  <td th:text="${#dates.format(item.created, 'dd MMMM yyyy HH:mm')}"></td>-->
-                              <td th:if="${item.done}">Done</td>
-                              <td th:if="${!item.done}">In progress</td>
-                              <td>
-                                  <a th:href="@{|/detail/${item.id}|}"
-                                     role="button">Detail</a>
-                              </td>
-                          </tr>
-                          </tbody>
-                      </table>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-  </body>
-  </html>
+                            <td class="text-success" th:if="${item.done}">Done</td>
+                            <td class="text-danger" th:if="${!item.done}">In progress</td>
+                            <td th:text="${item.getUser().name}"></td>
+                            <td>
+                                <a th:href="@{|/detail/${item.id}|}"
+                                   role="button">Detail</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

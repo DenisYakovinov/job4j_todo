@@ -12,7 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.job4j.todo.model.User;
+import ru.job4j.todo.util.SessionUtil;
+
+import javax.servlet.http.HttpSession;
 
 @SpringBootApplication
 @Controller
@@ -20,7 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ToDoStarter {
 
     @Bean(destroyMethod = "close")
-    public SessionFactory sf(BasicDataSource basicDataSource) {
+    public SessionFactory sessionFactory(BasicDataSource basicDataSource) {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySetting(AvailableSettings.DATASOURCE, basicDataSource)
                 .configure()
@@ -42,7 +47,9 @@ public class ToDoStarter {
     }
 
     @GetMapping("/")
-    String home() {
+    String home(Model model, HttpSession session) {
+        User user = SessionUtil.getUserFromSession(session);
+        model.addAttribute("user", user);
         return "redirect:/index";
     }
 

@@ -1,50 +1,23 @@
 package ru.job4j.todo.persistence;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import ru.job4j.todo.exception.PersistenceException;
 import ru.job4j.todo.model.Item;
 
-import javax.persistence.RollbackException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.function.Function;
 
 @Repository
-public class ItemStore implements Store {
-
-    private final SessionFactory sessionFactory;
+public class ItemStore extends GenericPersistence implements Store<Item> {
 
     public ItemStore(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public <T> T genericPersist(Function<Session, T> command) {
-        final Session session = sessionFactory.openSession();
-        final Transaction transaction = session.beginTransaction();
-        try {
-            T result = command.apply(session);
-            transaction.commit();
-            return result;
-        } catch (HibernateException e) {
-            try {
-                session.getTransaction().rollback();
-            } catch (RollbackException re) {
-                throw new PersistenceException(re.getMessage());
-            }
-            throw new PersistenceException(e.getMessage());
-        } finally {
-            session.close();
-        }
+        super(sessionFactory);
     }
 
     @Override
     public List<Item> findAll() {
-        return genericPersist(session -> session.createQuery("from Item").list());
+        return genericPersist(session -> session.createQuery("from Item i order by i.created").list());
     }
 
     @Override

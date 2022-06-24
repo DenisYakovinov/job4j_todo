@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.service.ItemService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,5 +23,11 @@ public class IndexController {
         List<Item> items = itemService.findAll();
         model.addAttribute("items", items);
         return "index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

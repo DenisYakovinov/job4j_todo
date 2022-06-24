@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.todo.model.Item;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.ItemService;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ItemController {
@@ -24,7 +27,9 @@ public class ItemController {
     }
 
     @PostMapping("/createItem")
-    public String createItem(@ModelAttribute Item item) {
+    public String createItem(@ModelAttribute Item item, HttpSession session) {
+         User user = (User) session.getAttribute("user");
+         item.setUser(user);
          itemService.add(item);
          return "redirect:/index";
     }
@@ -32,7 +37,7 @@ public class ItemController {
     @PostMapping("/updateItem")
     public String updateItem(Model model, @ModelAttribute Item item) {
         itemService.replace(item.getId(), item);
-        model.addAttribute("item", item);
+        model.addAttribute("item", itemService.findById(item.getId()));
         return "itemDetail";
     }
 
