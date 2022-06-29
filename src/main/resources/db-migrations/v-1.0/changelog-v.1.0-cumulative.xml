@@ -8,4 +8,7 @@
     <include file="01-changeset-create-item-table.xml" relativeToChangelogFile="true"/>
     <include file="02-changeset-create-users-table.xml" relativeToChangelogFile="true"/>
     <include file="03-changeset-create-item-userid-fk.xml" relativeToChangelogFile="true"/>
+    <include file="04-changeset-create-categories-table.xml" relativeToChangelogFile="true"/>
+    <include file="05-changeset-create-link-item-categories-table.xml" relativeToChangelogFile="true"/>
+    <include file="06-changeset-insert-categories-values.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -3,7 +3,7 @@ package ru.job4j.todo.model;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "item")
@@ -19,6 +19,10 @@ public class Item {
     private LocalDateTime created;
 
     private boolean done;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "link_item_categories")
+    private final Set<Category> categories = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -81,6 +85,14 @@ public class Item {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void add(Category category) {
+        categories.add(category);
     }
 
     @Override
