@@ -17,7 +17,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.1/css/bootstrap-multiselect.css">
     <title>Todolist</title>
 </head>
 <body>
@@ -49,15 +50,32 @@
                 New task
             </div>
             <div class="card-body">
-                    <form th:action="@{/createItem}" method="POST">
-                        <input type="hidden" name="id" value="0"/>
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" id="name">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" name="description" id="description"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm">Create</button>
+                <form th:action="@{/createItem}" method="POST">
+                    <input type="hidden" name="id" value="0"/>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" name="description" id="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <strong>category: </strong>
+                        <select class="form-control" name="categoriesIds" id="multiple-checkboxes-categories" multiple="multiple">
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                    th:text="${category.name}"></option>
+                        </select>
+                    </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.1/js/bootstrap-multiselect.js"></script>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('#multiple-checkboxes-categories').multiselect({
+                                includeSelectAllOption: true,
+                                nonSelectedText: 'choose categories'
+                            });
+                        });
+                    </script>
+                    <button type="submit" class="btn btn-outline-primary btn-sm">Create</button>
                 </form>
             </div>
         </div>

@@ -2,36 +2,44 @@ package ru.job4j.todo.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.ItemService;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ItemController {
 
     private final ItemService itemService;
+    private final CategoryService categoryService;
 
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, CategoryService categoryService) {
         this.itemService = itemService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/addItem")
-    public String toAddItem() {
+    public String toAddItem(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
         return "addItem";
     }
 
     @PostMapping("/createItem")
-    public String createItem(@ModelAttribute Item item, HttpSession session) {
-         User user = (User) session.getAttribute("user");
-         item.setUser(user);
-         itemService.add(item);
-         return "redirect:/index";
+    public String createItem(@ModelAttribute Item item,
+                             @RequestParam("categoriesIds") List<Integer> categoriesIds,
+                             HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        item.setUser(user);
+        itemService.add(item);
+        return "redirect:/index";
     }
 
     @PostMapping("/updateItem")
