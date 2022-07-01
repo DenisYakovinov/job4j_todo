@@ -16,7 +16,7 @@ public class Category {
 
     }
 
-    private Category(String name) {
+    public Category(String name) {
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class Category {
             return false;
         }
         Category category = (Category) o;
-        return id == category.id && Objects.equals(name, category.name);
+        return id == category.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 }

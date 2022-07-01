@@ -8,12 +8,8 @@ import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.ItemService;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ItemController {
@@ -36,15 +32,18 @@ public class ItemController {
     public String createItem(@ModelAttribute Item item,
                              @RequestParam("categoriesIds") List<Integer> categoriesIds,
                              HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        item.setUser(user);
+        setItemAttribs(session, categoriesIds, item);
         itemService.add(item);
         return "redirect:/index";
     }
 
     @PostMapping("/updateItem")
-    public String updateItem(Model model, @ModelAttribute Item item) {
-        itemService.replace(item.getId(), item);
+    public String updateItem(Model model,
+                             @RequestParam("categoriesIds") List<Integer> categoriesIds,
+                             @ModelAttribute Item item,
+                             HttpSession session) {
+        setItemAttribs(session, categoriesIds, item);
+        itemService.replaceWithCategories(item);
         model.addAttribute("item", itemService.findById(item.getId()));
         return "itemDetail";
     }
@@ -82,7 +81,13 @@ public class ItemController {
 
     @GetMapping("/editItem/{itemId}")
     public String editItem(Model model, @PathVariable("itemId") int itemId) {
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("item", itemService.findById(itemId));
         return "editItem";
+    }
+
+    private void setItemAttribs(HttpSession session, List<Integer> categoriesIds, Item item) {
+        item.setUser((User) session.getAttribute("user"));
+        categoriesIds.forEach(x -> item.add(categoryService.findById(x)));
     }
 }

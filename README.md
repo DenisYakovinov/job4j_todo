@@ -17,11 +17,13 @@
 ![login](images_examples/login.png)
 ### 2. Main page. List of all tasks.
 ![mainPage](images_examples/mainPage.png)
-### 3. The page for adding a new task.
+### 3. The page for adding a new task (user can specify categories)
 ![addNewTask](images_examples/addNewTask.png)
 ### 4. Detail page
 ![detailPage](images_examples/detailPage.png)
-### 5. Only new tasks 
+### 5. Edit page
+![editPage](images_examples/editPage.png)
+### 6. Only new tasks 
 ![onlyNewTasksPage](images_examples/onlyNewTasksPage.png)
-### 6. Only completed tasks
+### 7. Only completed tasks
 ![onlyCompletedTasksPage](images_examples/onlyCompletedTasksPage.png)

@@ -68,13 +68,24 @@
                         <td th:text="${item.getUser().name}"></td>
                         </tbody>
                     </table>
+                    <div>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header" style="background-color: #B9BF5E">
+                                Task categories:
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" style="background-color: whitesmoke" th:each="category : ${item.categories}" th:text="${category.name}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br>
                     <div th:if="${item.getUser().name == session.user.name}">
-                    <a class="btn btn-outline-primary btn-sm" th:href="@{|/completed/${item.id}|}"
-                       role="button">Done</a>
-                    <a class="btn btn-outline-primary btn-sm" th:href="@{|/editItem/${item.id}|}"
-                       role="button">Edit</a>
-                    <a class="btn btn-outline-danger btn-sm" th:href="@{|/removeItem/${item.id}|}"
-                       role="button">Remove</a>
+                        <a class="btn btn-outline-primary btn-sm" th:href="@{|/completed/${item.id}|}"
+                           role="button">Done</a>
+                        <a class="btn btn-outline-primary btn-sm" th:href="@{|/editItem/${item.id}|}"
+                           role="button">Edit</a>
+                        <a class="btn btn-outline-danger btn-sm" th:href="@{|/removeItem/${item.id}|}"
+                           role="button">Remove</a>
                     </div>
                 </form>
             </div>

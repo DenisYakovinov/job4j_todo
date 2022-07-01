@@ -50,6 +50,10 @@ public class ItemService implements GenericService<Item> {
         return itemStore.replace(id, item);
     }
 
+    public Item replaceWithCategories(Item item) {
+        return itemStore.replaceWithCategories(item);
+    }
+
     @Override
     public boolean delete(int id) {
         return itemStore.delete(id);
