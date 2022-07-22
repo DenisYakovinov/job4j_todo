@@ -30,7 +30,7 @@ public abstract class GenericPersistence {
             } catch (RollbackException re) {
                 throw new PersistenceException(re.getMessage());
             }
-            throw new PersistenceException(e.getMessage());
+            throw e;
         } finally {
             session.close();
         }

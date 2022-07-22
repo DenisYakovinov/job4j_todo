@@ -1,6 +1,10 @@
 package ru.job4j.todo.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.todo.exception.EmailReservedException;
+import ru.job4j.todo.exception.PersistenceException;
+import ru.job4j.todo.exception.ServiceException;
+import ru.job4j.todo.exception.UniqueViolationException;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.persistence.UserStore;
 
@@ -18,7 +22,13 @@ public class UserService implements GenericService<User> {
 
     @Override
     public User add(User user) {
-        return userStore.add(user);
+        try {
+            return userStore.add(user);
+        } catch (UniqueViolationException e) {
+            throw new EmailReservedException(e.getMessage(), e);
+        } catch (PersistenceException e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     @Override

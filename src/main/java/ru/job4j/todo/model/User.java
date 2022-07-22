@@ -78,7 +78,6 @@ public class User {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("id=").append(id);
         sb.append(", email='").append(email).append('\'');
-        sb.append(", password='").append(password).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append('}');
         return sb.toString();

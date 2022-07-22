@@ -4,6 +4,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.todo.exception.EmailReservedException;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.UserService;
 
@@ -19,9 +20,6 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute User user, @RequestParam(name = "repeatPassword") String repeatPassword) {
-        if (!user.getPassword().equals(repeatPassword)) {
-            return "redirect:/registration?failPass=true";
-        }
         userService.add(user);
         return "redirect:/loginPage";
     }
@@ -32,5 +30,10 @@ public class RegistrationController {
         model.addAttribute("fail", fail != null);
         model.addAttribute("failPass", failPass != null);
         return "/registration";
+    }
+
+    @ExceptionHandler(EmailReservedException.class)
+    public String handleException(Exception e) {
+        return "redirect:/registration?fail=true";
     }
 }

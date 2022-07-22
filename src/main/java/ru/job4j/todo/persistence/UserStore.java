@@ -1,8 +1,12 @@
 package ru.job4j.todo.persistence;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import ru.job4j.todo.exception.PersistenceException;
+import ru.job4j.todo.exception.UniqueViolationException;
 import ru.job4j.todo.model.User;
 
 import java.util.List;
@@ -17,10 +21,16 @@ public class UserStore extends GenericPersistence implements Store<User> {
 
     @Override
     public User add(User user) {
-        return genericPersist(session -> {
-            session.save(user);
-            return user;
-        });
+        try {
+            return genericPersist(session -> {
+                session.save(user);
+                return user;
+            });
+        } catch (ConstraintViolationException e) {
+            throw new UniqueViolationException(e.getMessage(), e);
+        } catch (HibernateException e) {
+            throw new PersistenceException(String.format("User %s can't be added (%s)", user, e.getMessage()), e);
+        }
     }
 
     @Override
